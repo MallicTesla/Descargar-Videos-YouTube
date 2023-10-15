@@ -13,47 +13,76 @@ ventana.columnconfigure (0, weight = 1)
 
 
 # link------------------------------------------------------------------------------------------
-saludo = tkinter.Label(ventana,     text = "Link de Descarga",
+txt_link = tkinter.Label(ventana,   text = "Link de Descarga",
                                     bg = "#6e6969",
                                     fg = "black",
                                     font="arial 15 ",)
-saludo.grid(column = 0, row = 1, pady = 5, padx = 5)
+txt_link.grid(column = 0, row = 1, pady = 5, padx = 5)
 
-# texto.
-entry = tkinter.Entry(ventana,      width = "75",
+link_valor = tkinter.StringVar()
+
+link_i = tkinter.Entry(ventana,     textvariable = link_valor,
+                                    width = "75",
                                     font="arial 15 ",)
-# Posicionarla en la ventana.
-entry.grid(column = 0, row = 2, pady = 5, padx = 5, columnspan=3)
+link_i.grid(column = 0, row = 2, pady = 5, padx = 5, columnspan=3)
+
+def optener_link(boton):
+    if boton == 1:
+        print (1)
+        link = link_valor.get()
+        print (link)
+
+    elif boton == 2:
+        print (2)
+        link = link_valor.get()
+        print (link)
 
 
 # radio boton -----------------------------------------------------------------------------------
 freim = tkinter.Frame (ventana, bg = "#6e6969",)
 freim.grid (column = 0, row = 3, ipady= 40)
 
-selecsion = tkinter.StringVar()
+valor_radio = tkinter.IntVar()
+
+def mostrar () :
+    if valor_radio.get() == 1 :
+        calidad_i.config (state = "disabled")
+        boton_1.config (state = "disabled")
+
+    elif valor_radio.get() == 2 :
+        calidad_i.config (state = "normal")
+        boton_1.config (state = "normal")
+
+    elif valor_radio.get() == 3 :
+        calidad_i.config (state = "disabled")
+        boton_1.config (state = "normal")
+
 
 r1 = tkinter.Radiobutton(freim,     text = "MP 3",
-                                    value = 1,                #   el valor que entrega cuando es selecsionado 
                                     bg = "#999999",
                                     fg = "black",
                                     font = "arial 15",
-                                    variable = selecsion)      #   variable = el nombre de la variavle del valor selecsionado
+                                    value = 1,
+                                    variable = valor_radio,
+                                    command=mostrar)
 r1.pack(side="left", padx=5)
 
 r2 = tkinter.Radiobutton(freim,     text = "Video",
-                                    value = 2,                #   el valor que entrega cuando es selecsionado 
                                     bg = "#999999",
                                     fg = "black",
                                     font = "arial 15",
-                                    variable = selecsion)      #   variable = el nombre de la variavle del valor selecsionado
+                                    value = 2,
+                                    variable = valor_radio,
+                                    command=mostrar)
 r2.pack(side="left", padx=5)
 
 r3 = tkinter.Radiobutton(freim,     text = "Descarga rapida",
-                                    value = 3,                #   el valor que entrega cuando es selecsionado 
                                     bg = "#999999",
                                     fg = "black",
                                     font = "arial 15",
-                                    variable = selecsion)      #   variable = el nombre de la variavle del valor selecsionado
+                                    value = 3,
+                                    variable = valor_radio,
+                                    command=mostrar)
 r3.pack(side="left", padx=5)
 
 
@@ -61,13 +90,16 @@ r3.pack(side="left", padx=5)
 freim_1 = tkinter.Frame (ventana, bg = "#6e6969",)
 freim_1.grid (column = 0, row = 4, ipady= 20)
 
+valor_resolusion = tkinter.IntVar()
+
 calidad_t = tkinter.Label (freim_1, text = "Resolucion",
                                     bg = "#6e6969",
                                     fg = "black",
                                     font="arial 15 ",)
 calidad_t.pack(side="left", padx=5)
 
-calidad_i = tkinter.Entry(freim_1,  width = "5",
+calidad_i = tkinter.Entry(freim_1,  textvariable = valor_resolusion,
+                                    width = "5",
                                     font="arial 15 ",)
 calidad_i.pack(side="left", padx=5)
 
@@ -83,6 +115,7 @@ boton_1 = tkinter.Button(ventana,   text = "Resolusiones disponibles",
                                     width = "51",
                                     bg = "#999999",
                                     fg = "black",
+                                    command = lambda:optener_link (1),
                                     font = "arial 15",)
 boton_1.grid (column = 0, row = 5)
 
@@ -97,33 +130,34 @@ txt_salida = tkinter.Label (freim_2,    text = "texto",
                                         width= 51,
                                         height = 13,
                                         # justify="left",
-                                        anchor="nw"
+                                        anchor="nw",
                                         )
 txt_salida.pack(side="top", pady=20)
 
 
 # Boton descarga ---------------------------------------------------------------------------------------------------------
-boton_1 = tkinter.Button(ventana,   text = "Descargar",
+def accion_descarga():
+    optener_link (2)
+    try:
+        resolusion = valor_resolusion.get()
+        if resolusion != 0:
+            print (resolusion)
+
+        else:
+            print (0,",No es un valor valido")
+    except:
+        print ("Solo se admiten numeros en la Resolucion")
+
+boton_2 = tkinter.Button(ventana,   text = "Descargar",
                                     width = "51",
                                     bg = "#999999",
                                     fg = "black",
+                                    command = accion_descarga,
                                     font = "arial 15",)
-boton_1.grid (column = 0, row = 7)
+boton_2.grid (column = 0, row = 7)
 
 
 
 
 
 ventana.mainloop()
-
-# etiqueta = ttk.Frame(ventana, padding=10,)  #   crea una etiqueta para el widget que contiene una cadena de texto (tamaño del eidget).
-# etiqueta.grid(padx= 350, pady=400 )          #   grid especificar la posición de la etiqueta que está dentro del marco del widget
-
-# ttk.Label(etiqueta, text="funcionara").grid(column=0, row=0)    #   crea una etiqueta para el widget que contiene una cadena de texto estática (donde esta, texto).grid especificar la posición de
-# ttk.Button(etiqueta, text="Quitar", command=ventana.destroy).grid(column=2, row=0) #   crra un boton (donde esta, texto del boton, funcion del boton,)
-
-
-
-# entry = ttk.Entry(state=tk.DISABLED)              #para que aparesca el input en gris
-# entry.config(state=tk.NORMAL)                     #asi lo sacas de gris
-

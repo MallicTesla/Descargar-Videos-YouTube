@@ -1,130 +1,164 @@
 from pytube import YouTube, Playlist
 from moviepy.editor import VideoFileClip, AudioFileClip
 
-def lista (link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida):
-    if link.lower().count("playlist") == 1:
-        print ("playlist")
-        links = Playlist (link)
+class DescargadorVideo ():
+    def __init__(self, link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, para):
+        self.link = link
+        self.quiero = quiero
+        self.ruta_video = ruta_video
+        self.ruta_audio = ruta_audio
+        self.final = final
+        self.lo_mejor = lo_mejor
+        self.descarga_rapida = descarga_rapida
+        self.para = para
 
-        for listas in links.video_urls:
-            print ("1")
-            lista = YouTube (listas)
+        self.lista()
 
-            separador (lista, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida)
+    # def lista (self, link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida):
+    def lista (self):
+        if self.link.lower().count("playlist") == 1:
+            print ("playlist")
+            self.links = Playlist (self.link)
 
-    elif link.lower().count("playlist") == 0:
-        print ("video")
-        lista = YouTube (link)
+            for self.listas in self.links.video_urls:
+                print ("1")
+                self.lista = YouTube (self.listas)
 
-        separador (lista, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida)
+                # separador (lista, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida)
+                self.separador ()
 
-    else:
-        print ("ninguna")
+        elif link.lower().count("playlist") == 0:
+            print ("video")
+            self.lista = YouTube (link)
 
+            # separador (lista, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida)
+            self.separador ()
 
-def separador (lista, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida):
-    titulo = lista.title
-
-    video_completo = lista.streams.get_highest_resolution()
-    print (video_completo)
-
-    videos = lista.streams.order_by("resolution").desc().filter (type = "video")
-    audios = lista.streams.order_by("abr").desc().filter (type = "audio")
-
-    videos_quiero = videos.filter (resolution = quiero)
-
-    # for video in videos :
-    #     print ("todas ",video)
-    # print ()
-    # for audio in audios :
-    #     print ("audios", audio)
-
-    video = videos[0]
-    audio = audios[0]
-
-    # print (titulo)
-    # print (f"video quiero {videos_quiero}")
-    # print (f"video_completo.resolution {video_completo.resolution}")
-    # print (f"primer video {video}")
-    # print (f"primer audio {audio}")
-
-    descarga (video_completo, videos_quiero, video, audio, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, titulo)
-
-
-def descarga (video_completo, videos_quiero, video, audio, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, titulo):
-    if descarga_rapida or video_completo.resolution is video.resolution or video_completo.resolution is videos_quiero[0].resolution:
-        print ("descarga rapida", {video_completo})
-        try:
-            video_completo.download(final)
-
-            print ("descarga completa")
-        except:
-            print ("fallo descarga")
-
-    else:
-        if lo_mejor and quiero == "":
-            print (f"lo mejor {video}")
         else:
-            video = videos_quiero [0]
-            print (f"quiero {video}")
+            print ("ninguna")
 
+
+    # def separador (self, lista, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida):
+    def separador (self):
+        self.titulo = self.lista.title
+
+        self.video_completo = self.lista.streams.get_highest_resolution()
+        print (self.video_completo)
+
+        self.videos = self.lista.streams.order_by("resolution").desc().filter (type = "video")
+        self.audios = self.lista.streams.order_by("abr").desc().filter (type = "audio")
+
+        self.videos_quiero = self.videos.filter (resolution = self.quiero)
+
+        # for video in videos :
+        #     print ("todas ",video)
+        # print ()
+        # for audio in audios :
+        #     print ("audios", audio)
+
+        self.video = self.videos[0]
+        self.audio = self.audios[0]
+
+        # print (self.titulo)
+        # print (f"video quiero {self.videos_quiero}")
+        # print (f"video_completo.resolution {self.video_completo.resolution}")
+        # print (f"primer video {self.video}")
+        # print (f"primer audio {self.audio}")
+
+        # descarga (video_completo, videos_quiero, video, audio, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, titulo)
+        if self.para:
+            print ("sigui")
+            # self.descarga()
+
+        elif self.para is False:
+            print ("se paro")
+            self.resolusiones = []
+
+            for self.video in self.videos.streams.filter ("res") :
+                self.resolusiones = self.video + "\n"
+            # return self.titulo, self.videos.filter ("res")
+            print (f"{self.titulo}\n {self.resolusiones}")
+        else:
+            print ("else")
+
+
+    # def descarga (self, video_completo, videos_quiero, video, audio, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, titulo):
+    def descarga (self):
+        if self.descarga_rapida or self.video_completo.resolution is self.video.resolution or self.video_completo.resolution is self.videos_quiero[0].resolution:
+            print ("descarga rapida", {self.video_completo})
+            try:
+                self.video_completo.download(self.final)
+
+                print ("descarga completa")
+            except:
+                print ("fallo descarga")
+
+        else:
+            if self.lo_mejor and self.quiero == "":
+                print (f"lo mejor {self.video}")
+            else:
+                self.video = self.videos_quiero [0]
+                print (f"quiero {self.video}")
+
+            try:
+                self.video.download (self.ruta_video)
+                self.audio.download (self.ruta_audio)
+
+                print ("descarga completa")
+
+                # fusionar (video, audio, ruta_video, ruta_audio, final, titulo)
+                self.fusionar ()
+
+            except:
+                print ("fallo descarga")
+
+
+    # def fusionar (self, video, audio, ruta_video, ruta_audio, final, titulo):
+    def fusionar (self):
         try:
-            video.download (ruta_video)
-            audio.download (ruta_audio)
+            self.video = VideoFileClip (f"{self.ruta_video}/{self.video.default_filename}")
+            self.audio = AudioFileClip (f"{self.ruta_audio}/{self.audio.default_filename}")
 
-            print ("descarga completa")
+            self.fusion = self.video.set_audio (self.audio)
 
-            fusionar (video, audio, ruta_video, ruta_audio, final, titulo)
+            self.fusion.write_videofile (f"{self.final}\\{self.titulo}.mp4", codec="libx264", audio_codec="aac")
 
-        except:
-            print ("fallo descarga")
+        except Exception as e:
+            print ("Fallo la fusion", str(e))
 
-
-def fusionar (video, audio, ruta_video, ruta_audio, final, titulo):
-    try:
-        video = VideoFileClip (f"{ruta_video}/{video.default_filename}")
-        audio = AudioFileClip (f"{ruta_audio}/{audio.default_filename}")
-
-        fusion = video.set_audio (audio)
-
-        fusion.write_videofile (f"{final}\\{titulo}.mp4", codec="libx264", audio_codec="aac")
-
-    except Exception as e:
-        print ("Fallo la fusion", str(e))
-
-    print (f"Proseso terminado")
+        print (f"Proseso terminado")
 
 
+class DescargadorMP3 ():
+    def descargar_audio (self, link, ruta_audio):
+        if link.lower().count("playlist") == 1:
+            print ("playlist")
+            links = Playlist (link)
 
-def descargar_audio (link, ruta_audio):
-    if link.lower().count("playlist") == 1:
-        print ("playlist")
-        links = Playlist (link)
+            for listas in links.video_urls:
+                print ("1")
+                lista = YouTube (listas)
 
-        for listas in links.video_urls:
-            print ("1")
-            lista = YouTube (listas)
+                # descarga (lista, ruta_audio)
 
-            descarga (lista, ruta_audio)
+        elif link.lower().count("playlist") == 0:
+            print ("audio")
+            lista = YouTube (link)
 
-    elif link.lower().count("playlist") == 0:
-        print ("audio")
-        lista = YouTube (link)
+            # descarga_audio (lista, ruta_audio)
 
-        descarga_audio (lista, ruta_audio)
+        else:
+            print ("ninguna")
 
-    else:
-        print ("ninguna")
+    def descarga_audio (self, lista, ruta_audio):
+        audios = lista.streams.order_by("abr").desc().filter(type = "audio")
 
-def descarga_audio (lista, ruta_audio):
-    audios = lista.streams.order_by("abr").desc().filter(type = "audio")
+        # for audio in audios :
+        #     print (f"audio {audio}")
 
-    # for audio in audios :
-    #     print (f"audio {audio}")
+        audio = audios[0]
 
-    audio = audios[0]
-
-    audio.download (ruta_audio)
+        audio.download (ruta_audio)
 
 
 
@@ -151,16 +185,22 @@ final = "C:\\Users\\Mallic\\Downloads\\YouTube\\pronto"
 # link = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley" #1080
 # link = "https://www.youtube.com/watch?v=GVkiFP71n_c&ab_channel=LaMomiadelHugo" #720
 # link = "https://www.youtube.com/watch?v=jEugr6x2_qc&ab_channel=Bizarro" # 2160
-link = "https://www.youtube.com/playlist?list=PL4vlU3dGym0bgQtk-MKvLFoouWHC9g7R6"
+# link = "https://www.youtube.com/playlist?list=PL4vlU3dGym0bgQtk-MKvLFoouWHC9g7R6" #4
+link = "youtube.com/playlist?list=PL4vlU3dGym0Z3ECP0QxmpylREWK9mPVM2" #2
 
 lo_mejor = False
 quiero = "1080p"
 
 descarga_rapida = False
 
-# descomenta esto para descargar videos y comenta el de DESCARGAR AUDIO
-lista (link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida)
+para = False
 
+# descomenta esto para descargar videos y comenta el de DESCARGAR AUDIO
+# lista (link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida)
+
+DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, para)
+
+# descargar_video.lista()
 
 # --------------------------------------------------------------------------------------------------------
 # DESCARGAR VIDEOS DE LISTA DE REPRODUCCION

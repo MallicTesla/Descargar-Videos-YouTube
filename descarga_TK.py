@@ -1,3 +1,5 @@
+import descargar
+
 import tkinter                       #   hhttps://recursospython.com/guias-y-manuales/caja-de-texto-entry-tkinter/
 from tkinter import ttk
 

@@ -27,16 +27,25 @@ link_i = tkinter.Entry(ventana,     textvariable = link_valor,
 link_i.grid(column = 0, row = 2, pady = 5, padx = 5, columnspan=3)
 
 def optener_link(boton):
-    if boton == 1:
-        print (1)
-        link = link_valor.get()
-        print (link)
+    link = link_valor.get()
+    try:
+        if link != "":
+            if boton == 1:
+                print (1)
+                link = link_valor.get()
+                print (link)
 
-    elif boton == 2:
-        print (2)
-        link = link_valor.get()
-        print (link)
+            elif boton == 2:
+                print (2)
+                link = link_valor.get()
+                print (link)
 
+        else:
+            print ("deves ingresar algun link")
+            texto.set("Deves ingresar algun link")
+    except:
+        print ("Deve de ser un link valido")
+        texto.set("Deve de ser un link valido")
 
 # radio boton -----------------------------------------------------------------------------------
 freim = tkinter.Frame (ventana, bg = "#6e6969",)
@@ -46,16 +55,22 @@ valor_radio = tkinter.IntVar()
 
 def mostrar () :
     if valor_radio.get() == 1 :
+        texto.set ("Descargar MP 3")
         calidad_i.config (state = "disabled")
         boton_1.config (state = "disabled")
+        boton_2.config (state = "normal")
 
     elif valor_radio.get() == 2 :
+        texto.set ("Descargar Video")
         calidad_i.config (state = "normal")
         boton_1.config (state = "normal")
+        boton_2.config (state = "normal")
 
     elif valor_radio.get() == 3 :
+        texto.set ("Descarga rapida")
         calidad_i.config (state = "disabled")
         boton_1.config (state = "normal")
+        boton_2.config (state = "normal")
 
 
 r1 = tkinter.Radiobutton(freim,     text = "MP 3",
@@ -90,7 +105,7 @@ r3.pack(side="left", padx=5)
 freim_1 = tkinter.Frame (ventana, bg = "#6e6969",)
 freim_1.grid (column = 0, row = 4, ipady= 20)
 
-valor_resolusion = tkinter.IntVar()
+valor_resolusion = tkinter.StringVar()
 
 calidad_t = tkinter.Label (freim_1, text = "Resolucion",
                                     bg = "#6e6969",
@@ -100,6 +115,7 @@ calidad_t.pack(side="left", padx=5)
 
 calidad_i = tkinter.Entry(freim_1,  textvariable = valor_resolusion,
                                     width = "5",
+                                    state = "disabled",
                                     font="arial 15 ",)
 calidad_i.pack(side="left", padx=5)
 
@@ -115,6 +131,7 @@ boton_1 = tkinter.Button(ventana,   text = "Resolusiones disponibles",
                                     width = "51",
                                     bg = "#999999",
                                     fg = "black",
+                                    state = "disabled",
                                     command = lambda:optener_link (1),
                                     font = "arial 15",)
 boton_1.grid (column = 0, row = 5)
@@ -123,8 +140,10 @@ boton_1.grid (column = 0, row = 5)
 freim_2 = tkinter.Frame (ventana,   bg = "#6e6969")
 freim_2.grid (column = 0, row = 6, ipadx = 0, ipady= 0)
 
+texto = tkinter.StringVar()
+texto.set("Selecsionar un tipo de descarga")
 
-txt_salida = tkinter.Label (freim_2,    text = "texto",
+txt_salida = tkinter.Label (freim_2,    textvariable = texto,
                                         font = "arial 15",
                                         bg = "#eeeeee",
                                         width= 51,
@@ -140,24 +159,29 @@ def accion_descarga():
     optener_link (2)
     try:
         resolusion = valor_resolusion.get()
-        if resolusion != 0:
-            print (resolusion)
+        resolusion_int = int (resolusion)
+
+        comparar = 144, 240, 480, 720, 1080
+
+        if resolusion_int in comparar:
+            print (resolusion_int)
 
         else:
-            print (0,",No es un valor valido")
+            texto.set (f"({resolusion}).No es un valor valido")
+            print (f"({resolusion}).No es un valor valido")
+
     except:
+        texto.set ("Solo se admiten numeros en la Resolucion")
         print ("Solo se admiten numeros en la Resolucion")
 
 boton_2 = tkinter.Button(ventana,   text = "Descargar",
                                     width = "51",
                                     bg = "#999999",
                                     fg = "black",
+                                    state = "disabled",
                                     command = accion_descarga,
                                     font = "arial 15",)
 boton_2.grid (column = 0, row = 7)
-
-
-
 
 
 ventana.mainloop()

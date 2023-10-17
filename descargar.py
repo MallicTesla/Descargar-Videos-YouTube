@@ -12,6 +12,10 @@ class DescargadorVideo ():
         self.descarga_rapida = descarga_rapida
         self.para = para
 
+        self.resolusiones = []
+        self.resoluciones_videos = []
+        self.titulos_resolusiones = []
+
         self.lista()
 
     # def lista (self, link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida):
@@ -48,6 +52,8 @@ class DescargadorVideo ():
         self.videos = self.lista.streams.order_by("resolution").desc().filter (type = "video")
         self.audios = self.lista.streams.order_by("abr").desc().filter (type = "audio")
 
+        # print (self.videos)
+
         self.videos_quiero = self.videos.filter (resolution = self.quiero)
 
         # for video in videos :
@@ -72,15 +78,22 @@ class DescargadorVideo ():
 
         elif self.para is False:
             print ("se paro")
-            self.resolusiones = []
 
-            for self.video in self.videos.streams.filter ("res") :
-                self.resolusiones = self.video + "\n"
-            # return self.titulo, self.videos.filter ("res")
-            print (f"{self.titulo}\n {self.resolusiones}")
+            for self.video in self.videos :
+                if self.video.resolution not in self.resolusiones :
+                    self.resolusiones.append (self.video.resolution)
+
+            self.resoluciones_str = '\n'.join (self.resolusiones)
+
+            self.resoluciones_videos.append (f"{self.titulo}")
+            self.resoluciones_videos.append (f"{self.resoluciones_str}")
+
         else:
             print ("else")
 
+
+    def __str__(self):
+        return f"{self.resoluciones_videos}"
 
     # def descarga (self, video_completo, videos_quiero, video, audio, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, titulo):
     def descarga (self):
@@ -198,7 +211,10 @@ para = False
 # descomenta esto para descargar videos y comenta el de DESCARGAR AUDIO
 # lista (link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida)
 
-DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, para)
+# print (DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, para))
+
+# funsionara = DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, para)
+# print (f"funsionara {funsionara}")
 
 # descargar_video.lista()
 

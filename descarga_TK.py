@@ -1,189 +1,195 @@
-import descargar
+from descargar import DescargadorVideo, DescargadorMP3
 
 import tkinter                       #   hhttps://recursospython.com/guias-y-manuales/caja-de-texto-entry-tkinter/
 from tkinter import ttk
 
-ventana = tkinter.Tk()
 
-ventana.title("Descargas You Tuve")         #   Cambiar el nombre de la ventana
-ventana.geometry("700x700")                 #   Configurar tamaño
-ventana.resizable(1,1)                      #   para modificar manual mente el tamaño (para no modificarla(0,0)) (para modificarlo(1,1))
-ventana.config(bg="#6e6969")                #   Cambiar color de fond el color en inglés o en formato hexadecima
+class Inisio ():
+    def __init__(self):
 
+        self.ventana = tkinter.Tk()
 
-ventana.columnconfigure (0, weight = 1)
+        self.ventana.title("Descargas You Tuve")         #   Cambiar el nombre de la self.ventana
+        self.ventana.geometry("700x700")                 #   Configurar tamaño
+        self.ventana.resizable(1,1)                      #   para modificar manual mente el tamaño (para no modificarla(0,0)) (para modificarlo(1,1))
+        self.ventana.config(bg="#6e6969")                #   Cambiar color de fond el color en inglés o en formato hexadecima
 
+        self.ventana.columnconfigure (0, weight = 1)
 
 # link------------------------------------------------------------------------------------------
-txt_link = tkinter.Label(ventana,   text = "Link de Descarga",
-                                    bg = "#6e6969",
-                                    fg = "black",
-                                    font="arial 15 ",)
-txt_link.grid(column = 0, row = 1, pady = 5, padx = 5)
+        self.txt_link = tkinter.Label(self.ventana, text = "Link de Descarga",
+                                                    bg = "#6e6969",
+                                                    fg = "black",
+                                                    font="arial 15 ",)
+        self.txt_link.grid(column = 0, row = 1, pady = 5, padx = 5)
 
-link_valor = tkinter.StringVar()
+        self.link_valor = tkinter.StringVar()
 
-link_i = tkinter.Entry(ventana,     textvariable = link_valor,
-                                    width = "75",
-                                    font="arial 15 ",)
-link_i.grid(column = 0, row = 2, pady = 5, padx = 5, columnspan=3)
+        self.link_i = tkinter.Entry(self.ventana,   textvariable = self.link_valor,
+                                                    width = "75",
+                                                    font="arial 15 ",)
+        self.link_i.grid(column = 0, row = 2, pady = 5, padx = 5, columnspan=3)
 
-def optener_link(boton):
-    link = link_valor.get()
-    try:
-        if link != "":
-            if boton == 1:
-                print (1)
-                link = link_valor.get()
-                print (link)
+        def optener_link(boton):
+            self.boton = boton
+            # link = link_valor.get()
+            try:
+                if self.link != "":
+                    if self.boton == 1:
+                        print (1)
+                        self.link = self.link_valor.get()
+                        print (self.link)
 
-            elif boton == 2:
-                print (2)
-                link = link_valor.get()
-                print (link)
+                    elif self.boton == 2:
+                        print (2)
+                        self.link = self.link_valor.get()
+                        print (self.link)
 
-        else:
-            print ("deves ingresar algun link")
-            texto.set("Deves ingresar algun link")
-    except:
-        print ("Deve de ser un link valido")
-        texto.set("Deve de ser un link valido")
+                else:
+                    # print ("deves ingresar algun link")
+                    self.texto.set("Deves ingresar algun link")
+            except:
+                print ("Deve de ser un link valido")
+                self.texto.set("Deve de ser un link valido")
 
 # radio boton -----------------------------------------------------------------------------------
-freim = tkinter.Frame (ventana, bg = "#6e6969",)
-freim.grid (column = 0, row = 3, ipady= 40)
+        self.freim = tkinter.Frame (self.ventana, bg = "#6e6969",)
+        self.freim.grid (column = 0, row = 3, ipady= 40)
 
-valor_radio = tkinter.IntVar()
+        self.valor_radio = tkinter.IntVar()
 
-def mostrar () :
-    if valor_radio.get() == 1 :
-        texto.set ("Descargar MP 3")
-        calidad_i.config (state = "disabled")
-        boton_1.config (state = "disabled")
-        boton_2.config (state = "normal")
+        def mostrar () :
+            if self.valor_radio.get() == 1 :
+                self.texto.set ("Descargar MP 3")
+                self.calidad_i.config (state = "disabled")
+                self.boton_1.config (state = "disabled")
+                self.boton_2.config (state = "normal")
 
-    elif valor_radio.get() == 2 :
-        texto.set ("Descargar Video")
-        calidad_i.config (state = "normal")
-        boton_1.config (state = "normal")
-        boton_2.config (state = "normal")
+            elif self.valor_radio.get() == 2 :
+                self.texto.set ("Descargar Video")
+                self.calidad_i.config (state = "normal")
+                self.boton_1.config (state = "normal")
+                self.boton_2.config (state = "normal")
 
-    elif valor_radio.get() == 3 :
-        texto.set ("Descarga rapida")
-        calidad_i.config (state = "disabled")
-        boton_1.config (state = "normal")
-        boton_2.config (state = "normal")
+            elif self.valor_radio.get() == 3 :
+                self.texto.set ("Descarga rapida")
+                self.calidad_i.config (state = "disabled")
+                self.boton_1.config (state = "normal")
+                self.boton_2.config (state = "normal")
 
 
-r1 = tkinter.Radiobutton(freim,     text = "MP 3",
-                                    bg = "#999999",
-                                    fg = "black",
-                                    font = "arial 15",
-                                    value = 1,
-                                    variable = valor_radio,
-                                    command=mostrar)
-r1.pack(side="left", padx=5)
+        self.r1 = tkinter.Radiobutton(self.freim,   text = "MP 3",
+                                                    bg = "#999999",
+                                                    fg = "black",
+                                                    font = "arial 15",
+                                                    value = 1,
+                                                    variable = self.valor_radio,
+                                                    command=mostrar)
+        self.r1.pack(side="left", padx=5)
 
-r2 = tkinter.Radiobutton(freim,     text = "Video",
-                                    bg = "#999999",
-                                    fg = "black",
-                                    font = "arial 15",
-                                    value = 2,
-                                    variable = valor_radio,
-                                    command=mostrar)
-r2.pack(side="left", padx=5)
+        self.r2 = tkinter.Radiobutton(self.freim,   text = "Video",
+                                                    bg = "#999999",
+                                                    fg = "black",
+                                                    font = "arial 15",
+                                                    value = 2,
+                                                    variable = self.valor_radio,
+                                                    command=mostrar)
+        self.r2.pack(side="left", padx=5)
 
-r3 = tkinter.Radiobutton(freim,     text = "Descarga rapida",
-                                    bg = "#999999",
-                                    fg = "black",
-                                    font = "arial 15",
-                                    value = 3,
-                                    variable = valor_radio,
-                                    command=mostrar)
-r3.pack(side="left", padx=5)
+        self.r3 = tkinter.Radiobutton(self.freim,   text = "Descarga rapida",
+                                                    bg = "#999999",
+                                                    fg = "black",
+                                                    font = "arial 15",
+                                                    value = 3,
+                                                    variable = self.valor_radio,
+                                                    command=mostrar)
+        self.r3.pack(side="left", padx=5)
 
 
 # calidad --------------------------------------------------------------------------------------------------------------------------
-freim_1 = tkinter.Frame (ventana, bg = "#6e6969",)
-freim_1.grid (column = 0, row = 4, ipady= 20)
+        self.freim_1 = tkinter.Frame (self.ventana, bg = "#6e6969",)
+        self.freim_1.grid (column = 0, row = 4, ipady= 20)
 
-valor_resolusion = tkinter.StringVar()
+        self.valor_resolusion = tkinter.StringVar()
 
-calidad_t = tkinter.Label (freim_1, text = "Resolucion",
-                                    bg = "#6e6969",
-                                    fg = "black",
-                                    font="arial 15 ",)
-calidad_t.pack(side="left", padx=5)
+        self.calidad_t = tkinter.Label (self.freim_1,   text = "Resolucion",
+                                                        bg = "#6e6969",
+                                                        fg = "black",
+                                                        font="arial 15 ",)
+        self.calidad_t.pack(side="left", padx=5)
 
-calidad_i = tkinter.Entry(freim_1,  textvariable = valor_resolusion,
-                                    width = "5",
-                                    state = "disabled",
-                                    font="arial 15 ",)
-calidad_i.pack(side="left", padx=5)
+        self.calidad_i = tkinter.Entry(self.freim_1,    textvariable = self.valor_resolusion,
+                                                        width = "5",
+                                                        state = "disabled",
+                                                        font="arial 15 ",)
+        self.calidad_i.pack(side="left", padx=5)
 
-calidad_t = tkinter.Label (freim_1, text = "p",
-                                    bg = "#6e6969",
-                                    fg = "black",
-                                    font="arial 15 ",)
-calidad_t.pack(side="left", padx=5)
+        self.calidad_t = tkinter.Label (self.freim_1,   text = "p",
+                                                        bg = "#6e6969",
+                                                        fg = "black",
+                                                        font="arial 15 ",)
+        self.calidad_t.pack(side="left", padx=5)
 
 
 # boton provar --------------------------------------------------------------------------------------------------------------------------
-boton_1 = tkinter.Button(ventana,   text = "Resolusiones disponibles",
-                                    width = "51",
-                                    bg = "#999999",
-                                    fg = "black",
-                                    state = "disabled",
-                                    command = lambda:optener_link (1),
-                                    font = "arial 15",)
-boton_1.grid (column = 0, row = 5)
+        self.boton_1 = tkinter.Button(self.ventana, text = "Resolusiones disponibles",
+                                                    width = "51",
+                                                    bg = "#999999",
+                                                    fg = "black",
+                                                    state = "disabled",
+                                                    command = lambda:optener_link (1),
+                                                    font = "arial 15",)
+        self.boton_1.grid (column = 0, row = 5)
 
 # Texto de salida ------------------------------------------------------------------------------------------------------------------
-freim_2 = tkinter.Frame (ventana,   bg = "#6e6969")
-freim_2.grid (column = 0, row = 6, ipadx = 0, ipady= 0)
+        self.freim_2 = tkinter.Frame (self.ventana,   bg = "#6e6969")
+        self.freim_2.grid (column = 0, row = 6, ipadx = 0, ipady= 0)
 
-texto = tkinter.StringVar()
-texto.set("Selecsionar un tipo de descarga")
+        self.texto = tkinter.StringVar()
+        self.texto.set("Selecsionar un tipo de descarga")
 
-txt_salida = tkinter.Label (freim_2,    textvariable = texto,
-                                        font = "arial 15",
-                                        bg = "#eeeeee",
-                                        width= 51,
-                                        height = 13,
-                                        # justify="left",
-                                        anchor="nw",
-                                        )
-txt_salida.pack(side="top", pady=20)
+        self.txt_salida = tkinter.Label (self.freim_2,  textvariable = self.texto,
+                                                        font = "arial 15",
+                                                        bg = "#eeeeee",
+                                                        width= 51,
+                                                        height = 13,
+                                                        # justify="left",
+                                                        anchor="nw",)
+        self.txt_salida.pack(side="top", pady=20)
 
 
 # Boton descarga ---------------------------------------------------------------------------------------------------------
-def accion_descarga():
-    optener_link (2)
-    try:
-        resolusion = valor_resolusion.get()
-        resolusion_int = int (resolusion)
+        def accion_descarga():
+            optener_link (2) #optengo el link
+            try:
+                self.resolusion = self.valor_resolusion.get()
+                self.resolusion_int = int (self.resolusion)
 
-        comparar = 144, 240, 480, 720, 1080
+                self.comparar = 144, 240, 480, 720, 1080
 
-        if resolusion_int in comparar:
-            print (resolusion_int)
+                if self.resolusion_int in self.comparar:
+                    print (self.resolusion_int)
 
-        else:
-            texto.set (f"({resolusion}).No es un valor valido")
-            print (f"({resolusion}).No es un valor valido")
+                    # DescargadorVideo(self.link, self.quiero, self.ruta_video, self.ruta_audio, self.final, self.lo_mejor, self.descarga_rapida, self.para)
 
-    except:
-        texto.set ("Solo se admiten numeros en la Resolucion")
-        print ("Solo se admiten numeros en la Resolucion")
+                else:
+                    self.texto.set (f"({self.resolusion}).No es un valor valido")
+                    print (f"({self.resolusion}).No es un valor valido")
 
-boton_2 = tkinter.Button(ventana,   text = "Descargar",
-                                    width = "51",
-                                    bg = "#999999",
-                                    fg = "black",
-                                    state = "disabled",
-                                    command = accion_descarga,
-                                    font = "arial 15",)
-boton_2.grid (column = 0, row = 7)
+            except:
+                self.texto.set ("Solo se admiten numeros en la Resolucion")
+                print ("Solo se admiten numeros en la Resolucion")
+
+        self.boton_2 = tkinter.Button(self.ventana, text = "Descargar",
+                                                    width = "51",
+                                                    bg = "#999999",
+                                                    fg = "black",
+                                                    state = "disabled",
+                                                    command = accion_descarga,
+                                                    font = "arial 15",)
+        self.boton_2.grid (column = 0, row = 7)
 
 
-ventana.mainloop()
+        self.ventana.mainloop()
+Inisio ()
+# DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, para)

@@ -1,7 +1,7 @@
 from descargar import DescargadorVideo, DescargadorMP3
 
 import tkinter                       #   hhttps://recursospython.com/guias-y-manuales/caja-de-texto-entry-tkinter/
-from tkinter import ttk
+from tkinter import ttk, filedialog
 
 
 class Inisio ():
@@ -33,32 +33,93 @@ class Inisio ():
         def optener_link(boton):
             self.boton = boton
             # link = link_valor.get()
+            self.link = self.link_valor.get()
+
             try:
                 if self.link != "":
                     if self.boton == 1:
                         print (1)
-                        self.link = self.link_valor.get()
                         print (self.link)
+                        quiero = False
+                        ruta_video = False
+                        ruta_audio = False
+                        final = False
+                        lo_mejor = False
+                        descarga_rapida = False
+                        solo_resolucion = False
+
+                        self.miradas = DescargadorVideo(   self.link,
+                                            quiero,
+                                            ruta_video,
+                                            ruta_audio,
+                                            final,
+                                            lo_mejor,
+                                            descarga_rapida,
+                                            solo_resolucion)
+
+                        print ("mira---------",self.miradas)
+
+
+
+
+                        # # Crear una lista para almacenar el resultado formateado
+                        # self.formatted_data = []
+                        # print (1)
+
+                        # # Recorrer la lista original de diccionarios
+                        # for self.i in range(0, len(self.miradas), 2):
+                        #     print (2)
+                        #     self.title = list(self.miradas[self.i])[0]
+                        #     print (3)
+                        #     self.resolutions = list(self.miradas[self.i + 1])[0].split('\n')
+                        #     print (4)
+                            
+                        #     self.formatted_data.append(f'Título: {self.title}')
+                        #     print (5)
+                        #     self.formatted_data.append('Resoluciones:')
+                        #     print (6)
+                            
+                        #     # Agregar cada resolución
+                        #     for self.resolution in self.resolutions:
+                        #         print (7)
+                        #         self.formatted_data.append(f'- {self.resolution}')
+                        #         print (8)
+
+                        # # Imprimir el resultado formateado
+                        # for self.item in self.formatted_data:
+                        #     print (9)
+                        #     print(self.item)
+
+
+
+
+
+
+
+
+
+
+                        # self.texto.set (item)
 
                     elif self.boton == 2:
                         print (2)
-                        self.link = self.link_valor.get()
                         print (self.link)
 
                 else:
                     # print ("deves ingresar algun link")
                     self.texto.set("Deves ingresar algun link")
+
             except:
                 print ("Deve de ser un link valido")
                 self.texto.set("Deve de ser un link valido")
 
 # radio boton -----------------------------------------------------------------------------------
         self.freim = tkinter.Frame (self.ventana, bg = "#6e6969",)
-        self.freim.grid (column = 0, row = 3, ipady= 40)
+        self.freim.grid (column = 0, row = 3, ipady= 10)
 
         self.valor_radio = tkinter.IntVar()
 
-        def mostrar () :
+        def manejo_botones () :
             if self.valor_radio.get() == 1 :
                 self.texto.set ("Descargar MP 3")
                 self.calidad_i.config (state = "disabled")
@@ -84,7 +145,7 @@ class Inisio ():
                                                     font = "arial 15",
                                                     value = 1,
                                                     variable = self.valor_radio,
-                                                    command=mostrar)
+                                                    command=manejo_botones)
         self.r1.pack(side="left", padx=5)
 
         self.r2 = tkinter.Radiobutton(self.freim,   text = "Video",
@@ -93,7 +154,7 @@ class Inisio ():
                                                     font = "arial 15",
                                                     value = 2,
                                                     variable = self.valor_radio,
-                                                    command=mostrar)
+                                                    command=manejo_botones)
         self.r2.pack(side="left", padx=5)
 
         self.r3 = tkinter.Radiobutton(self.freim,   text = "Descarga rapida",
@@ -102,13 +163,13 @@ class Inisio ():
                                                     font = "arial 15",
                                                     value = 3,
                                                     variable = self.valor_radio,
-                                                    command=mostrar)
+                                                    command=manejo_botones)
         self.r3.pack(side="left", padx=5)
 
 
 # calidad --------------------------------------------------------------------------------------------------------------------------
         self.freim_1 = tkinter.Frame (self.ventana, bg = "#6e6969",)
-        self.freim_1.grid (column = 0, row = 4, ipady= 20)
+        self.freim_1.grid (column = 0, row = 4, ipady= 10)
 
         self.valor_resolusion = tkinter.StringVar()
 
@@ -170,7 +231,7 @@ class Inisio ():
                 if self.resolusion_int in self.comparar:
                     print (self.resolusion_int)
 
-                    # DescargadorVideo(self.link, self.quiero, self.ruta_video, self.ruta_audio, self.final, self.lo_mejor, self.descarga_rapida, self.para)
+                    # DescargadorVideo(self.link, self.quiero, self.ruta_video, self.ruta_audio, self.final, self.lo_mejor, self.descarga_rapida, self.solo_resolucion)
 
                 else:
                     self.texto.set (f"({self.resolusion}).No es un valor valido")
@@ -190,6 +251,17 @@ class Inisio ():
         self.boton_2.grid (column = 0, row = 7)
 
 
+# rutas ---------------------------------------------------------------------------------------------------------
+        def archivo ():
+            explorador_archivos = filedialog.askdirectory()
+
+        self.boton_3 = tkinter.Button(self.ventana, text = "Archivo de Descarga",
+                                                    width = "51",
+                                                    bg = "#999999",
+                                                    fg = "black",
+                                                    command = archivo,
+                                                    font = "arial 15",)
+        self.boton_3.grid (column = 0, row = 8, pady=20)
         self.ventana.mainloop()
 Inisio ()
-# DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, para)
+# DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, solo_resolucion)

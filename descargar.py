@@ -47,7 +47,7 @@ class DescargadorVideo ():
         self.titulo = self.lista.title
 
         self.video_completo = self.lista.streams.get_highest_resolution()
-        print (self.video_completo)
+        # print (self.video_completo)
 
         self.videos = self.lista.streams.order_by("resolution").desc().filter (type = "video")
         self.audios = self.lista.streams.order_by("abr").desc().filter (type = "audio")
@@ -89,8 +89,8 @@ class DescargadorVideo ():
             # self.resoluciones_videos.append(self.resolusiones)
 
                     self.esto_ok = []
-                    for self.resolusione in self.resolusiones:
-                        self.esto_ok.append (int(self.resolusione.rstrip('p')))
+                    for self.resolusion in self.resolusiones:
+                        self.esto_ok.append (int(self.resolusion.rstrip('p')))
 
                     self.resoluciones_dict = {
                         "Título": self.titulo,
@@ -101,9 +101,9 @@ class DescargadorVideo ():
         else:
             print ("else")
 
-
     def __str__(self):
-        return f"{self.resoluciones_videos}"
+        return self.resoluciones_videos
+
 
     # def descarga (self, video_completo, videos_quiero, video, audio, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, titulo):
     def descarga (self):
@@ -219,7 +219,7 @@ descarga_rapida = False
 solo_resolucion = False
 
 # descomenta esto para descargar videos y comenta el de DESCARGAR AUDIO
-print (DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, solo_resolucion))
+# print (DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, solo_resolucion))
 
 # lista (link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida)
 

@@ -16,6 +16,7 @@ class Inisio ():
 
         self.ventana.columnconfigure (0, weight = 1)
 
+
 # link------------------------------------------------------------------------------------------
         self.txt_link = tkinter.Label(self.ventana, text = "Link de Descarga",
                                                     bg = "#6e6969",
@@ -39,7 +40,7 @@ class Inisio ():
                 if self.link != "":
                     if self.boton == 1:
                         print (1)
-                        print (self.link)
+                        # print (self.link)
                         quiero = False
                         ruta_video = False
                         ruta_audio = False
@@ -57,49 +58,11 @@ class Inisio ():
                                             descarga_rapida,
                                             solo_resolucion)
 
-                        print ("mira---------",self.miradas)
+                        # print ("mira---------",self.miradas)
 
+                        self.agregar_texto()
 
-
-
-                        # # Crear una lista para almacenar el resultado formateado
-                        # self.formatted_data = []
-                        # print (1)
-
-                        # # Recorrer la lista original de diccionarios
-                        # for self.i in range(0, len(self.miradas), 2):
-                        #     print (2)
-                        #     self.title = list(self.miradas[self.i])[0]
-                        #     print (3)
-                        #     self.resolutions = list(self.miradas[self.i + 1])[0].split('\n')
-                        #     print (4)
-                            
-                        #     self.formatted_data.append(f'Título: {self.title}')
-                        #     print (5)
-                        #     self.formatted_data.append('Resoluciones:')
-                        #     print (6)
-                            
-                        #     # Agregar cada resolución
-                        #     for self.resolution in self.resolutions:
-                        #         print (7)
-                        #         self.formatted_data.append(f'- {self.resolution}')
-                        #         print (8)
-
-                        # # Imprimir el resultado formateado
-                        # for self.item in self.formatted_data:
-                        #     print (9)
-                        #     print(self.item)
-
-
-
-
-
-
-
-
-
-
-                        # self.texto.set (item)
+                        # self.texto.set (self.miradas)
 
                     elif self.boton == 2:
                         print (2)
@@ -202,21 +165,22 @@ class Inisio ():
                                                     font = "arial 15",)
         self.boton_1.grid (column = 0, row = 5)
 
-# Texto de salida ------------------------------------------------------------------------------------------------------------------
-        self.freim_2 = tkinter.Frame (self.ventana,   bg = "#6e6969")
-        self.freim_2.grid (column = 0, row = 6, ipadx = 0, ipady= 0)
+# Texto salida ------------------------------------------------------------------------------------------------------------------
+        self.freim_2 = tkinter.Frame (self.ventana,   bg = "#6e6969",
+                                                        pady=15
+                                                        )
+        self.freim_2.grid (column = 0, row = 6)
 
-        self.texto = tkinter.StringVar()
-        self.texto.set("Selecsionar un tipo de descarga")
-
-        self.txt_salida = tkinter.Label (self.freim_2,  textvariable = self.texto,
+        self.entrada_texto = ("Selecsionar un tipo de descarga")
+        self.texto_salida = tkinter.Text(self.freim_2,  wrap=tkinter.WORD,
                                                         font = "arial 15",
+                                                        state=tkinter.DISABLED,
                                                         bg = "#eeeeee",
-                                                        width= 51,
-                                                        height = 13,
-                                                        # justify="left",
-                                                        anchor="nw",)
-        self.txt_salida.pack(side="top", pady=20)
+                                                        height=14,
+                                                        width=51)
+        self.texto_salida.pack()
+
+        self.agregar_texto()
 
 
 # Boton descarga ---------------------------------------------------------------------------------------------------------
@@ -262,6 +226,21 @@ class Inisio ():
                                                     command = archivo,
                                                     font = "arial 15",)
         self.boton_3.grid (column = 0, row = 8, pady=20)
+
+
         self.ventana.mainloop()
+
+# agregar texto---------------------------------------------------------------------------------------------------------
+    def agregar_texto(self):
+        texto = self.entrada_texto
+        texto_anterior = self.texto_salida.get("1.0", "end-1c")
+        texto_completo = f"{texto_anterior}\n{texto}"
+
+        self.texto_salida.config(state=tkinter.NORMAL) 
+        self.texto_salida.delete("1.0", "end")
+        self.texto_salida.insert("1.0", texto_completo)
+        self.texto_salida.config(state=tkinter.DISABLED)
+
 Inisio ()
 # DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, solo_resolucion)
+

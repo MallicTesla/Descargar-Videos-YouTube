@@ -58,20 +58,10 @@ class Inisio ():
                                         descarga_rapida,
                                         solo_resolucion)
 
-                    # print ("mira---------",miradas)
-                    print ("por aca")
                     miras = miradas.obtener_datos()
-                    # print (miras)
-                    # print (miras[0])
                     print (miras[0]['Título'],miras[0]['Resoluciones'])
 
-                    # self.entrada_texto = str(f"Título: {self.miradas['Título']}\nResoluciones: {', '.join(map(str, self.miradas['Resoluciones']))}\n")
-                    # self.entrada_texto = f"Título: {self.miradass['Título']}\nResoluciones: {', '.join(map(str, self.miradass['Resoluciones']))}\n"
-
                     for mira in miras:
-                        print ("por aca 2")
-                        print (mira)
-                        print (mira['Título'],mira['Resoluciones'])
                         res = str(mira['Resoluciones'])
                         res = res.replace("[", "").replace("]", "")
 

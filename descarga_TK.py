@@ -36,45 +36,60 @@ class Inisio ():
             # link = link_valor.get()
             self.link = self.link_valor.get()
 
-            try:
-                if self.link != "":
-                    if self.boton == 1:
-                        print (1)
-                        # print (self.link)
-                        quiero = False
-                        ruta_video = False
-                        ruta_audio = False
-                        final = False
-                        lo_mejor = False
-                        descarga_rapida = False
-                        solo_resolucion = False
+            # try:
+            if self.link != "":
+                if self.boton == 1:
+                    print (1)
+                    # print (self.link)
+                    quiero = False
+                    ruta_video = False
+                    ruta_audio = False
+                    final = False
+                    lo_mejor = False
+                    descarga_rapida = False
+                    solo_resolucion = False
 
-                        self.miradas = DescargadorVideo(   self.link,
-                                            quiero,
-                                            ruta_video,
-                                            ruta_audio,
-                                            final,
-                                            lo_mejor,
-                                            descarga_rapida,
-                                            solo_resolucion)
+                    miradas = DescargadorVideo(   self.link,
+                                        quiero,
+                                        ruta_video,
+                                        ruta_audio,
+                                        final,
+                                        lo_mejor,
+                                        descarga_rapida,
+                                        solo_resolucion)
 
-                        # print ("mira---------",self.miradas)
+                    # print ("mira---------",miradas)
+                    print ("por aca")
+                    miras = miradas.obtener_datos()
+                    # print (miras)
+                    # print (miras[0])
+                    print (miras[0]['Título'],miras[0]['Resoluciones'])
 
+                    # self.entrada_texto = str(f"Título: {self.miradas['Título']}\nResoluciones: {', '.join(map(str, self.miradas['Resoluciones']))}\n")
+                    # self.entrada_texto = f"Título: {self.miradass['Título']}\nResoluciones: {', '.join(map(str, self.miradass['Resoluciones']))}\n"
+
+                    for mira in miras:
+                        print ("por aca 2")
+                        print (mira)
+                        print (mira['Título'],mira['Resoluciones'])
+                        res = str(mira['Resoluciones'])
+                        res = res.replace("[", "").replace("]", "")
+
+                        self.entrada_texto = f"{mira['Título']}\n{res}\n"
                         self.agregar_texto()
 
-                        # self.texto.set (self.miradas)
+                elif self.boton == 2:
+                    print (2)
+                    print (self.link)
 
-                    elif self.boton == 2:
-                        print (2)
-                        print (self.link)
+            else:
+                self.entrada_texto = "Deves ingresar algun link"
+                self.agregar_texto()
 
-                else:
-                    # print ("deves ingresar algun link")
-                    self.texto.set("Deves ingresar algun link")
+            # except:
+            #     self.entrada_texto = "Deve de ser un link valido"
+            #     self.agregar_texto()
 
-            except:
-                print ("Deve de ser un link valido")
-                self.texto.set("Deve de ser un link valido")
 
 # radio boton -----------------------------------------------------------------------------------
         self.freim = tkinter.Frame (self.ventana, bg = "#6e6969",)
@@ -84,22 +99,28 @@ class Inisio ():
 
         def manejo_botones () :
             if self.valor_radio.get() == 1 :
-                self.texto.set ("Descargar MP 3")
                 self.calidad_i.config (state = "disabled")
                 self.boton_1.config (state = "disabled")
                 self.boton_2.config (state = "normal")
 
+                self.entrada_texto = "Descargar MP 3"
+                self.agregar_texto()
+
             elif self.valor_radio.get() == 2 :
-                self.texto.set ("Descargar Video")
                 self.calidad_i.config (state = "normal")
                 self.boton_1.config (state = "normal")
                 self.boton_2.config (state = "normal")
 
+                self.entrada_texto = "Descargar Video"
+                self.agregar_texto()
+
             elif self.valor_radio.get() == 3 :
-                self.texto.set ("Descarga rapida")
                 self.calidad_i.config (state = "disabled")
                 self.boton_1.config (state = "normal")
                 self.boton_2.config (state = "normal")
+
+                self.entrada_texto = "Descargar rapida"
+                self.agregar_texto()
 
 
         self.r1 = tkinter.Radiobutton(self.freim,   text = "MP 3",
@@ -198,11 +219,13 @@ class Inisio ():
                     # DescargadorVideo(self.link, self.quiero, self.ruta_video, self.ruta_audio, self.final, self.lo_mejor, self.descarga_rapida, self.solo_resolucion)
 
                 else:
-                    self.texto.set (f"({self.resolusion}).No es un valor valido")
+                    self.entrada_texto = f"({self.resolusion}).No es un valor valido"
+                    self.agregar_texto()
                     print (f"({self.resolusion}).No es un valor valido")
 
             except:
-                self.texto.set ("Solo se admiten numeros en la Resolucion")
+                self.entrada_texto = "Solo se admiten numeros en la Resolucion"
+                self.agregar_texto()
                 print ("Solo se admiten numeros en la Resolucion")
 
         self.boton_2 = tkinter.Button(self.ventana, text = "Descargar",

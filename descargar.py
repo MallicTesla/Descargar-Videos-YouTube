@@ -72,6 +72,17 @@ class DescargadorVideo ():
         # print (f"primer audio {self.audio}")
 
         # descarga (video_completo, videos_quiero, video, audio, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, titulo)
+
+
+
+
+
+
+
+
+
+
+
         if self.solo_resolucion:
             print ("sigui")
             # self.descarga()
@@ -92,17 +103,34 @@ class DescargadorVideo ():
                     for self.resolusion in self.resolusiones:
                         self.esto_ok.append (int(self.resolusion.rstrip('p')))
 
-                    self.resoluciones_dict = {
-                        "Título": self.titulo,
-                        "Resoluciones": sorted (self.esto_ok, reverse=True)
+                self.resoluciones_dict = {
+                    "Título": self.titulo,
+                    "Resoluciones": sorted (self.esto_ok, reverse=True)
                     }
 
             self.resoluciones_videos.append(self.resoluciones_dict)
+            print ("llego")
         else:
             print ("else")
 
-    def __str__(self):
+    def obtener_datos(self):
         return self.resoluciones_videos
+
+    def __str__(self):
+        return f"{self.resoluciones_videos}"
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     # def descarga (self, video_completo, videos_quiero, video, audio, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, titulo):
@@ -219,7 +247,9 @@ descarga_rapida = False
 solo_resolucion = False
 
 # descomenta esto para descargar videos y comenta el de DESCARGAR AUDIO
-# print (DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, solo_resolucion))
+# no_se = DescargadorVideo(link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, solo_resolucion)
+# print (no_se.obtener_datos())
+# print (no_se)
 
 # lista (link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida)
 

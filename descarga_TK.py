@@ -24,9 +24,9 @@ class Inisio ():
                                                     font="arial 15 ",)
         self.txt_link.grid(column = 0, row = 1, pady = 5, padx = 5)
 
-        self.link_valor = tkinter.StringVar()
+        self.url_link = tkinter.StringVar()
 
-        self.link_i = tkinter.Entry(self.ventana,   textvariable = self.link_valor,
+        self.link_i = tkinter.Entry(self.ventana,   textvariable = self.url_link,
                                                     width = "75",
                                                     font="arial 15 ",)
         self.link_i.grid(column = 0, row = 2, pady = 5, padx = 5, columnspan=3)
@@ -44,7 +44,7 @@ class Inisio ():
                                                     font = "arial 15",
                                                     value = 1,
                                                     variable = self.valor_radio,
-                                                    command=self.manejo_botones)
+                                                    command=self.manejo_radio_boton)
         self.r1.pack(side="left", padx=5)
 
         self.r2 = tkinter.Radiobutton(self.freim,   text = "Video",
@@ -53,7 +53,7 @@ class Inisio ():
                                                     font = "arial 15",
                                                     value = 2,
                                                     variable = self.valor_radio,
-                                                    command=self.manejo_botones)
+                                                    command=self.manejo_radio_boton)
         self.r2.pack(side="left", padx=5)
 
         self.r3 = tkinter.Radiobutton(self.freim,   text = "Descarga rapida",
@@ -62,7 +62,7 @@ class Inisio ():
                                                     font = "arial 15",
                                                     value = 3,
                                                     variable = self.valor_radio,
-                                                    command=self.manejo_botones)
+                                                    command=self.manejo_radio_boton)
         self.r3.pack(side="left", padx=5)
 
 
@@ -100,6 +100,7 @@ class Inisio ():
                                                     command = lambda:self.optener_link (1),
                                                     font = "arial 15",)
         self.boton_1.grid (column = 0, row = 5)
+
 
 # Texto salida ------------------------------------------------------------------------------------------------------------------
         self.freim_2 = tkinter.Frame (self.ventana,   bg = "#6e6969",
@@ -160,20 +161,20 @@ class Inisio ():
     def accion_descarga(self):
         self.optener_link (2) #optengo el link
         try:
-            self.resolusion = self.valor_resolusion.get()
-            self.resolusion_int = int (self.resolusion)
+            resolusion = self.valor_resolusion.get()
+            resolusion_int = int (resolusion)
 
             self.comparar = 144, 240, 480, 720, 1080
 
-            if self.resolusion_int in self.comparar:
-                print (self.resolusion_int)
+            if resolusion_int in self.comparar:
+                print (resolusion_int)
 
                 # DescargadorVideo(self.link, self.quiero, self.ruta_video, self.ruta_audio, self.final, self.lo_mejor, self.descarga_rapida, self.solo_resolucion)
 
             else:
-                self.entrada_texto = f"({self.resolusion}).No es un valor valido"
+                self.entrada_texto = f"({resolusion}).No es un valor valido"
                 self.agregar_texto()
-                print (f"({self.resolusion}).No es un valor valido")
+                print (f"({resolusion}).No es un valor valido")
 
         except:
             self.entrada_texto = "Solo se admiten numeros en la Resolucion"
@@ -183,63 +184,49 @@ class Inisio ():
 
 # logica link---------------------------------------------------------------------------------------------------------------------------------
     def optener_link(self, boton):
-        self.boton = boton
-        self.link = self.link_valor.get()
+        link = self.url_link.get()
 
-        # try:
-        if self.link != "":
-            if self.boton == 1:
-                print (1)
-                # print (self.link)
-                quiero = False
-                ruta_video = False
-                ruta_audio = False
-                final = False
-                lo_mejor = False
-                descarga_rapida = False
-                solo_resolucion = False
+        try:
+            if link != "":
+                if boton == 1:
+                    resolusiones = DescargadorVideo(   link,
+                                        quiero = False,
+                                        ruta_video = False,
+                                        ruta_audio = False,
+                                        final = False,
+                                        lo_mejor = False,
+                                        descarga_rapida = False,
+                                        solo_resolucion = False)
 
-                miradas = DescargadorVideo(   self.link,
-                                    quiero,
-                                    ruta_video,
-                                    ruta_audio,
-                                    final,
-                                    lo_mejor,
-                                    descarga_rapida,
-                                    solo_resolucion)
+                    resolusiones = resolusiones.obtener_datos()
 
-                miras = miradas.obtener_datos()
-                print (miras[0]['Título'],miras[0]['Resoluciones'])
+                    for resolusion in resolusiones:
+                        res = str(resolusion['Resoluciones'])
+                        res = res.replace("[", "").replace("]", "")
 
-                for mira in miras:
-                    res = str(mira['Resoluciones'])
-                    res = res.replace("[", "").replace("]", "")
+                        self.entrada_texto = f"{resolusion['Título']}\n{res}\n"
+                        self.agregar_texto()
 
-                    self.entrada_texto = f"{mira['Título']}\n{res}\n"
-                    self.agregar_texto()
+                elif boton == 2:
+                    ...
 
-            elif self.boton == 2:
-                print (2)
-                print (self.link)
+            else:
+                self.entrada_texto = "Deves ingresar algun link"
+                self.agregar_texto()
 
-        else:
-            self.entrada_texto = "Deves ingresar algun link"
+        except:
+            self.entrada_texto = "Deve de ser un link valido"
             self.agregar_texto()
-
-        # except:
-        #     self.entrada_texto = "Deve de ser un link valido"
-        #     self.agregar_texto()
 
 
 # logica radio boton---------------------------------------------------------------------------------------------------------------------
-    def manejo_botones (self) :
+    def manejo_radio_boton (self) :
         if self.valor_radio.get() == 1 :
             self.calidad_i.config (state = "disabled")
             self.boton_1.config (state = "disabled")
             self.boton_2.config (state = "normal")
 
             self.entrada_texto = "Descargar MP 3"
-            self.agregar_texto()
 
         elif self.valor_radio.get() == 2 :
             self.calidad_i.config (state = "normal")
@@ -247,7 +234,6 @@ class Inisio ():
             self.boton_2.config (state = "normal")
 
             self.entrada_texto = "Descargar Video"
-            self.agregar_texto()
 
         elif self.valor_radio.get() == 3 :
             self.calidad_i.config (state = "disabled")
@@ -255,7 +241,8 @@ class Inisio ():
             self.boton_2.config (state = "normal")
 
             self.entrada_texto = "Descargar rapida"
-            self.agregar_texto()
+
+        self.agregar_texto()
 
 
 Inisio ()

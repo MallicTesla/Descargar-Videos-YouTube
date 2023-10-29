@@ -1,6 +1,7 @@
 from descargar import DescargadorVideo, DescargadorMP3
 
-import tkinter                       #   hhttps://recursospython.com/guias-y-manuales/caja-de-texto-entry-tkinter/
+import tkinter                      #   hhttps://recursospython.com/guias-y-manuales/caja-de-texto-entry-tkinter/
+
 from tkinter import ttk, filedialog
 
 
@@ -104,8 +105,7 @@ class Inisio ():
 
 # Texto salida ------------------------------------------------------------------------------------------------------------------
         self.freim_2 = tkinter.Frame (self.ventana,   bg = "#6e6969",
-                                                        pady=15
-                                                        )
+                                                        pady=15)
         self.freim_2.grid (column = 0, row = 6)
 
         self.entrada_texto = ("Selecsionar un tipo de descarga")
@@ -114,8 +114,13 @@ class Inisio ():
                                                         state=tkinter.DISABLED,
                                                         bg = "#eeeeee",
                                                         height=14,
-                                                        width=51)
-        self.texto_salida.pack()
+                                                        width=50)
+        self.texto_salida.pack(side=tkinter.LEFT)
+
+        scrollbar = tkinter.Scrollbar(self.freim_2, command=self.texto_salida.yview)
+        scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+
+        self.texto_salida.config(yscrollcommand=scrollbar.set)
 
         self.agregar_texto()
 
@@ -133,9 +138,10 @@ class Inisio ():
 
 # rutas ---------------------------------------------------------------------------------------------------------
         def archivo ():
-            explorador_archivos = filedialog.askdirectory()
+            tkinter.messagebox.showinfo("Info" , "Se creara una carpeta llamada descargas para guardar las descargas")
+            self.ruta_descarga = filedialog.askdirectory()
 
-        self.boton_3 = tkinter.Button(self.ventana, text = "Archivo de Descarga",
+        self.boton_3 = tkinter.Button(self.ventana, text = "Ruta de Descarga",
                                                     width = "51",
                                                     bg = "#999999",
                                                     fg = "black",
@@ -157,46 +163,16 @@ class Inisio ():
         self.texto_salida.insert("1.0", texto_completo)
         self.texto_salida.config(state=tkinter.DISABLED)
 
-# logica descargar----------------------------------------------------------------------------------------------------------------
-    def accion_descarga(self):
-        self.optener_link (2) #optengo el link
-        try:
-            resolusion = self.valor_resolusion.get()
-            resolusion_int = int (resolusion)
-
-            self.comparar = 144, 240, 480, 720, 1080
-
-            if resolusion_int in self.comparar:
-                print (resolusion_int)
-
-                # DescargadorVideo(self.link, self.quiero, self.ruta_video, self.ruta_audio, self.final, self.lo_mejor, self.descarga_rapida, self.solo_resolucion)
-
-            else:
-                self.entrada_texto = f"({resolusion}).No es un valor valido"
-                self.agregar_texto()
-                print (f"({resolusion}).No es un valor valido")
-
-        except:
-            self.entrada_texto = "Solo se admiten numeros en la Resolucion"
-            self.agregar_texto()
-            print ("Solo se admiten numeros en la Resolucion")
-
 
 # logica link---------------------------------------------------------------------------------------------------------------------------------
     def optener_link(self, boton):
-        link = self.url_link.get()
+        self.link = self.url_link.get()
 
         try:
-            if link != "":
+            if self.link != "":
                 if boton == 1:
-                    resolusiones = DescargadorVideo(   link,
-                                        quiero = False,
-                                        ruta_video = False,
-                                        ruta_audio = False,
-                                        final = False,
-                                        lo_mejor = False,
-                                        descarga_rapida = False,
-                                        solo_resolucion = False)
+                    resolusiones = DescargadorVideo(
+                        self.link, quiero = False, ruta_video = False, ruta_audio = False, final = False, lo_mejor = False, descarga_rapida = False, solo_resolucion = False)
 
                     resolusiones = resolusiones.obtener_datos()
 
@@ -208,7 +184,7 @@ class Inisio ():
                         self.agregar_texto()
 
                 elif boton == 2:
-                    ...
+                    pass
 
             else:
                 self.entrada_texto = "Deves ingresar algun link"
@@ -243,6 +219,41 @@ class Inisio ():
             self.entrada_texto = "Descargar rapida"
 
         self.agregar_texto()
+
+
+# logica descargar----------------------------------------------------------------------------------------------------------------
+    def accion_descarga(self):
+        self.optener_link (2) #optengo el link
+
+        if self.entrada_texto == "Descargar MP 3":
+            print ("Descargar MP 3")
+
+        elif self.entrada_texto == "Descargar Video":
+            print ("Descargar Video")
+
+        elif self.entrada_texto == "Descargar rapida":
+            print ("Descargar rapida")
+
+        try:
+            resolusion = self.valor_resolusion.get()
+            resolusion_int = int (resolusion)
+
+            self.comparar = 144, 240, 480, 720, 1080
+
+            if resolusion_int in self.comparar:
+                print (resolusion_int)
+
+                # DescargadorVideo(self.link, self.quiero, self.ruta_video, self.ruta_audio, self.final, self.lo_mejor, self.descarga_rapida, self.solo_resolucion)
+
+            else:
+                self.entrada_texto = f"({resolusion}).No es un valor valido"
+                self.agregar_texto()
+
+        except:
+            self.entrada_texto = "Solo se admiten numeros en la Resolucion"
+            self.agregar_texto()
+
+
 
 
 Inisio ()

@@ -152,6 +152,7 @@ class Inisio ():
 
         self.ventana.mainloop()
 
+
 # agregar texto---------------------------------------------------------------------------------------------------------
     def agregar_texto(self):
         texto = self.entrada_texto
@@ -201,6 +202,7 @@ class Inisio ():
             self.calidad_i.config (state = "disabled")
             self.boton_1.config (state = "disabled")
             self.boton_2.config (state = "normal")
+            self.radio_boton = "Descargar MP 3"
 
             self.entrada_texto = "Descargar MP 3"
 
@@ -208,6 +210,7 @@ class Inisio ():
             self.calidad_i.config (state = "normal")
             self.boton_1.config (state = "normal")
             self.boton_2.config (state = "normal")
+            self.radio_boton = "Descargar Video"
 
             self.entrada_texto = "Descargar Video"
 
@@ -215,45 +218,60 @@ class Inisio ():
             self.calidad_i.config (state = "disabled")
             self.boton_1.config (state = "normal")
             self.boton_2.config (state = "normal")
+            self.radio_boton = "Descargar rapida"
 
-            self.entrada_texto = "Descargar rapida"
+            self.entrada_texto = "Descargar rapida \nNormalmente se descarga a 720p"
 
         self.agregar_texto()
 
 
-# logica descargar----------------------------------------------------------------------------------------------------------------
+# logica boton descargar----------------------------------------------------------------------------------------------------------------
     def accion_descarga(self):
         self.optener_link (2) #optengo el link
 
-        if self.entrada_texto == "Descargar MP 3":
-            print ("Descargar MP 3")
-
-        elif self.entrada_texto == "Descargar Video":
-            print ("Descargar Video")
-
-        elif self.entrada_texto == "Descargar rapida":
-            print ("Descargar rapida")
-
         try:
-            resolusion = self.valor_resolusion.get()
-            resolusion_int = int (resolusion)
+            if self.ruta_descarga != "" or None:
+                print (self.ruta_descarga)
 
-            self.comparar = 144, 240, 480, 720, 1080
+                if self.radio_boton == "Descargar MP 3":
+                    print ("Descargar MP 3")
 
-            if resolusion_int in self.comparar:
-                print (resolusion_int)
+                elif self.radio_boton == "Descargar Video":
+                    print ("Descargar Video")
 
-                # DescargadorVideo(self.link, self.quiero, self.ruta_video, self.ruta_audio, self.final, self.lo_mejor, self.descarga_rapida, self.solo_resolucion)
+                    try:
+                        resolusion = self.valor_resolusion.get()
+                        resolusion_int = int (resolusion)
 
-            else:
-                self.entrada_texto = f"({resolusion}).No es un valor valido"
-                self.agregar_texto()
+                        self.comparar = 144, 240, 480, 720, 1080, 1440, 2160, 4320
+
+                        if resolusion_int in self.comparar:
+
+                            # DescargadorVideo(
+                            # self.link, quiero = resolusion, ruta_video = False, ruta_audio = False, final = False, lo_mejor = False, descarga_rapida = True, solo_resolucion = False)
+                            self.entrada_texto = "Finalizo la descarga"
+                            self.agregar_texto()
+
+                        else:
+                            self.entrada_texto = f"({resolusion}).No es un valor valido"
+                            self.agregar_texto()
+
+                    except:
+                        self.entrada_texto = "Solo se admiten numeros en la Resolucion"
+                        self.agregar_texto()
+
+                elif self.radio_boton == "Descargar rapida":
+                    print ("Descargar rapida")
+                    # DescargadorVideo(
+                    #         self.link, quiero = False, ruta_video = False, ruta_audio = False, final = False, lo_mejor = False, descarga_rapida = True, solo_resolucion = False)
+
+                    self.entrada_texto = "Finalizo la descarga"
+                    self.agregar_texto()
 
         except:
-            self.entrada_texto = "Solo se admiten numeros en la Resolucion"
+            tkinter.messagebox.showinfo("ERROR" , "Deves de ingresar una ruta de descarg")
+            self.entrada_texto = "Deves de ingresar una ruta de descarga"
             self.agregar_texto()
-
-
 
 
 Inisio ()

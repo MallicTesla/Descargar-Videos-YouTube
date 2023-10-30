@@ -1,32 +1,31 @@
+import os
+
 from pytube import YouTube, Playlist
 from moviepy.editor import VideoFileClip, AudioFileClip
 
 class DescargadorVideo ():
-    def __init__(self, link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, solo_resolucion):
+    def __init__(self, link, quiero, ruta, lo_mejor, descarga_rapida, solo_resolucion):
         self.link = link
         self.quiero = quiero
-        self.ruta_video = ruta_video
-        self.ruta_audio = ruta_audio
-        self.final = final
         self.lo_mejor = lo_mejor
         self.descarga_rapida = descarga_rapida
         self.solo_resolucion = solo_resolucion
-
+        self.ruta = ruta
         self.resolusiones = []
         self.resoluciones_videos = []
         self.titulos_resolusiones = []
 
         self.listado()
 
-    # def lista (self, link, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida):
+
     def listado (self):
         if self.link.lower().count("playlist") == 1:
             print ("playlist")
-            self.links = Playlist (self.link)
+            links = Playlist (self.link)
 
-            for self.listas in self.links.video_urls:
+            for listas in links.video_urls:
                 print ("1")
-                self.lista = YouTube (self.listas)
+                self.lista = YouTube (listas)
 
                 # separador (lista, quiero, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida)
                 self.separador ()
@@ -74,20 +73,7 @@ class DescargadorVideo ():
         # descarga (video_completo, videos_quiero, video, audio, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, titulo)
 
 
-
-
-
-
-
-
-
-
-
         if self.solo_resolucion:
-            print ("sigui")
-            # self.descarga()
-
-        elif self.solo_resolucion is False:
             print ("se paro")
 
             for self.video_1 in self.videos :
@@ -99,19 +85,23 @@ class DescargadorVideo ():
             # self.resoluciones_videos.append ({self.titulo})
             # self.resoluciones_videos.append(self.resolusiones)
 
-                    self.esto_ok = []
+                    self.resoluciones_int = []
                     for self.resolusion in self.resolusiones:
-                        self.esto_ok.append (int(self.resolusion.rstrip('p')))
+                        self.resoluciones_int.append (int(self.resolusion.rstrip('p')))
 
                 self.resoluciones_dict = {
                     "Título": self.titulo,
-                    "Resoluciones": sorted (self.esto_ok, reverse=True)
+                    "Resoluciones": sorted (self.resoluciones_int, reverse=True)
                     }
 
             self.resoluciones_videos.append(self.resoluciones_dict)
             print ("llego")
+
         else:
-            print ("else")
+            print ("sigui")
+            self.carpetas()
+            # self.descarga()
+
 
     def obtener_datos(self):
         return self.resoluciones_videos
@@ -120,17 +110,67 @@ class DescargadorVideo ():
         return f"{self.resoluciones_videos}"
 
 
+    def carpetas (self):
+        nombre_principal = "YouTube"
+        ruta_principal = self.ruta + nombre_principal
+
+        subcarpeta_1 = "Video"
+        subcarpeta_2 = "audio"
+
+
+
+        # Verifica si la carpeta principal ya existe
+        if not os.path.exists(ruta_principal):
+            print(f"La carpeta principal '{nombre_principal}' no existe.")
+            # Crea la carpeta principal
+            os.makedirs(ruta_principal)
+            print(f"Carpeta principal '{nombre_principal}' creada.")
+            print (ruta_principal)
+        else:
+            print(f"La carpeta principal '{nombre_principal}' ya existe.")
+            print (ruta_principal)
+
+        # Verifica si la subcarpeta 1 ya existe
+        ruta_subcarpeta_1 = os.path.join(ruta_principal, subcarpeta_1)
+        if not os.path.exists(ruta_subcarpeta_1):
+            print(f"La subcarpeta '{subcarpeta_1}' no existe.")
+            print (ruta_principal)
+            # Crea la subcarpeta 1 dentro de la carpeta principal
+            os.makedirs(ruta_subcarpeta_1)
+            print(f"Subcarpeta '{subcarpeta_1}' creada dentro de la carpeta principal.")
+        else:
+            print(f"La subcarpeta '{subcarpeta_1}' ya existe dentro de la carpeta principal.")
+            print (ruta_principal)
+
+        # Verifica si la subcarpeta 2 ya existe
+        ruta_subcarpeta_2 = os.path.join(ruta_principal, subcarpeta_2)
+        if not os.path.exists(ruta_subcarpeta_2):
+            print(f"La subcarpeta '{subcarpeta_2}' no existe.")
+            # Crea la subcarpeta 2 dentro de la carpeta principal
+            os.makedirs(ruta_subcarpeta_2)
+            print(f"Subcarpeta '{subcarpeta_2}' creada dentro de la carpeta principal.")
+        else:
+            print(f"La subcarpeta '{subcarpeta_2}' ya existe dentro de la carpeta principal.")
 
 
 
 
 
 
+        # if not os.path.exists(ruta_principal):
+        #     os.makedirs(ruta_principal)
 
+        # ruta_subcarpeta_1 = os.path.join(ruta_principal, subcarpeta_1)
+        # if not os.path.exists(ruta_subcarpeta_1):
+        #     os.makedirs(ruta_subcarpeta_1)
 
+        # ruta_subcarpeta_2 = os.path.join(ruta_principal, subcarpeta_2)
+        # if not os.path.exists(ruta_subcarpeta_2):
+        #     os.makedirs(ruta_subcarpeta_2)
 
-
-
+        self.ruta_video = self.ruta + "/video"
+        self.ruta_audio = self.ruta + "/audio"
+        self.final = self.ruta + "/YouTube"
 
 
     # def descarga (self, video_completo, videos_quiero, video, audio, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, titulo):
@@ -216,9 +256,9 @@ class DescargadorMP3 ():
 # --------------------------------------------------------------------------------------------------------
 # RUTAS DE DESTINO
 
-ruta_video = "C:\\Users\\Mallic\\Downloads\\YouTube\\video"
-ruta_audio = "C:\\Users\\Mallic\\Downloads\\YouTube\\audio"
-final = "C:\\Users\\Mallic\\Downloads\\YouTube\\pronto"
+ruta_video = "C:\\Users\\Mallic\\Downloads\\YouTube2\\video"
+ruta_audio = "C:\\Users\\Mallic\\Downloads\\YouTube2\\audio"
+final = "C:\\Users\\Mallic\\Downloads\\YouTube2\\pronto"
 
 # --------------------------------------------------------------------------------------------------------
 # DESCARGAR AUDIO

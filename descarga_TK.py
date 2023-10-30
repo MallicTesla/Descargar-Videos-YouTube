@@ -140,6 +140,7 @@ class Inisio ():
         def archivo ():
             tkinter.messagebox.showinfo("Info" , "Se creara una carpeta llamada descargas para guardar las descargas")
             self.ruta_descarga = filedialog.askdirectory()
+            print ("-------------",self.ruta_descarga)
 
         self.boton_3 = tkinter.Button(self.ventana, text = "Ruta de Descarga",
                                                     width = "51",
@@ -173,7 +174,7 @@ class Inisio ():
             if self.link != "":
                 if boton == 1:
                     resolusiones = DescargadorVideo(
-                        self.link, quiero = False, ruta_video = False, ruta_audio = False, final = False, lo_mejor = False, descarga_rapida = False, solo_resolucion = False)
+                        self.link, quiero = False, ruta = False, lo_mejor = False, descarga_rapida = False, solo_resolucion = True)
 
                     resolusiones = resolusiones.obtener_datos()
 
@@ -229,47 +230,46 @@ class Inisio ():
     def accion_descarga(self):
         self.optener_link (2) #optengo el link
 
-        try:
-            if self.ruta_descarga != "" or None:
-                print (self.ruta_descarga)
+        # try:
+        if self.ruta_descarga != "" or None:
+            print (self.ruta_descarga)
 
-                if self.radio_boton == "Descargar MP 3":
-                    print ("Descargar MP 3")
+            if self.radio_boton == "Descargar MP 3":
+                print ("Descargar MP 3")
 
-                elif self.radio_boton == "Descargar Video":
-                    print ("Descargar Video")
+            elif self.radio_boton == "Descargar Video":
+                print ("Descargar Video")
 
-                    try:
-                        resolusion = self.valor_resolusion.get()
-                        resolusion_int = int (resolusion)
+                try:
+                    resolusion = self.valor_resolusion.get()
+                    resolusion_int = int (resolusion)
 
-                        self.comparar = 144, 240, 480, 720, 1080, 1440, 2160, 4320
+                    self.comparar = 144, 240, 480, 720, 1080, 1440, 2160, 4320
 
-                        if resolusion_int in self.comparar:
-
-                            # DescargadorVideo(
-                            # self.link, quiero = resolusion, ruta_video = False, ruta_audio = False, final = False, lo_mejor = False, descarga_rapida = True, solo_resolucion = False)
-                            self.entrada_texto = "Finalizo la descarga"
-                            self.agregar_texto()
-
-                        else:
-                            self.entrada_texto = f"({resolusion}).No es un valor valido"
-                            self.agregar_texto()
-
-                    except:
-                        self.entrada_texto = "Solo se admiten numeros en la Resolucion"
+                    if resolusion_int in self.comparar:
+                        DescargadorVideo(
+                        self.link, quiero = resolusion, ruta = self.ruta_descarga, lo_mejor = False, descarga_rapida = False, solo_resolucion = False)
+                        self.entrada_texto = "Finalizo la descarga"
                         self.agregar_texto()
 
-                elif self.radio_boton == "Descargar rapida":
-                    print ("Descargar rapida")
-                    # DescargadorVideo(
-                    #         self.link, quiero = False, ruta_video = False, ruta_audio = False, final = False, lo_mejor = False, descarga_rapida = True, solo_resolucion = False)
+                    else:
+                        self.entrada_texto = f"({resolusion}).No es un valor valido"
+                        self.agregar_texto()
 
-                    self.entrada_texto = "Finalizo la descarga"
+                except:
+                    self.entrada_texto = "Solo se admiten numeros en la Resolucion"
                     self.agregar_texto()
 
-        except:
-            tkinter.messagebox.showinfo("ERROR" , "Deves de ingresar una ruta de descarg")
+            elif self.radio_boton == "Descargar rapida":
+                print ("Descargar rapida")
+                DescargadorVideo(
+                self.link, quiero = False, ruta = False, lo_mejor = False, descarga_rapida = True, solo_resolucion = False)
+
+                self.entrada_texto = "Finalizo la descarga"
+                self.agregar_texto()
+
+        # except:
+        #     tkinter.messagebox.showinfo("ERROR" , "Deves de ingresar una ruta de descarg")
             self.entrada_texto = "Deves de ingresar una ruta de descarga"
             self.agregar_texto()
 

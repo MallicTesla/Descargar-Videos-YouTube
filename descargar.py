@@ -53,7 +53,8 @@ class DescargadorVideo ():
 
         # print (self.videos)
 
-        self.videos_quiero = self.videos.filter (resolution = self.quiero)
+        self.videos_quiero = self.videos.filter (resolution = self.quiero + "p")
+        # print ("vodeo_quiero : ",self.videos_quiero,"\nvideos : ",self.videos,"\nquiero : ",self.quiero)
 
         # for video in videos :
         #     print ("todas ",video)
@@ -100,7 +101,7 @@ class DescargadorVideo ():
         else:
             print ("sigui")
             self.carpetas()
-            # self.descarga()
+            self.descarga()
 
 
     def obtener_datos(self):
@@ -111,66 +112,27 @@ class DescargadorVideo ():
 
 
     def carpetas (self):
-        nombre_principal = "YouTube"
+        print ("+++++++++++++++++",self.ruta)
+        nombre_principal = "/YouTube"
         ruta_principal = self.ruta + nombre_principal
 
         subcarpeta_1 = "Video"
-        subcarpeta_2 = "audio"
+        subcarpeta_2 = "Audio"
 
-
-
-        # Verifica si la carpeta principal ya existe
         if not os.path.exists(ruta_principal):
-            print(f"La carpeta principal '{nombre_principal}' no existe.")
-            # Crea la carpeta principal
             os.makedirs(ruta_principal)
-            print(f"Carpeta principal '{nombre_principal}' creada.")
-            print (ruta_principal)
-        else:
-            print(f"La carpeta principal '{nombre_principal}' ya existe.")
-            print (ruta_principal)
 
-        # Verifica si la subcarpeta 1 ya existe
         ruta_subcarpeta_1 = os.path.join(ruta_principal, subcarpeta_1)
         if not os.path.exists(ruta_subcarpeta_1):
-            print(f"La subcarpeta '{subcarpeta_1}' no existe.")
-            print (ruta_principal)
-            # Crea la subcarpeta 1 dentro de la carpeta principal
             os.makedirs(ruta_subcarpeta_1)
-            print(f"Subcarpeta '{subcarpeta_1}' creada dentro de la carpeta principal.")
-        else:
-            print(f"La subcarpeta '{subcarpeta_1}' ya existe dentro de la carpeta principal.")
-            print (ruta_principal)
 
-        # Verifica si la subcarpeta 2 ya existe
         ruta_subcarpeta_2 = os.path.join(ruta_principal, subcarpeta_2)
         if not os.path.exists(ruta_subcarpeta_2):
-            print(f"La subcarpeta '{subcarpeta_2}' no existe.")
-            # Crea la subcarpeta 2 dentro de la carpeta principal
             os.makedirs(ruta_subcarpeta_2)
-            print(f"Subcarpeta '{subcarpeta_2}' creada dentro de la carpeta principal.")
-        else:
-            print(f"La subcarpeta '{subcarpeta_2}' ya existe dentro de la carpeta principal.")
 
-
-
-
-
-
-        # if not os.path.exists(ruta_principal):
-        #     os.makedirs(ruta_principal)
-
-        # ruta_subcarpeta_1 = os.path.join(ruta_principal, subcarpeta_1)
-        # if not os.path.exists(ruta_subcarpeta_1):
-        #     os.makedirs(ruta_subcarpeta_1)
-
-        # ruta_subcarpeta_2 = os.path.join(ruta_principal, subcarpeta_2)
-        # if not os.path.exists(ruta_subcarpeta_2):
-        #     os.makedirs(ruta_subcarpeta_2)
-
-        self.ruta_video = self.ruta + "/video"
-        self.ruta_audio = self.ruta + "/audio"
-        self.final = self.ruta + "/YouTube"
+        self.ruta_video = ruta_principal + "/Video"
+        self.ruta_audio = ruta_principal + "/Audio"
+        self.final = ruta_principal
 
 
     # def descarga (self, video_completo, videos_quiero, video, audio, ruta_video, ruta_audio, final, lo_mejor, descarga_rapida, titulo):
@@ -303,9 +265,5 @@ solo_resolucion = False
 
 
 # --------------------------------------------------------------------------------------------------------
-
-
-
-
 
 

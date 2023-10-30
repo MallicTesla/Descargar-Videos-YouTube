@@ -240,30 +240,34 @@ class Inisio ():
             elif self.radio_boton == "Descargar Video":
                 print ("Descargar Video")
 
-                try:
-                    resolusion = self.valor_resolusion.get()
-                    resolusion_int = int (resolusion)
+                # try:
+                resolusion = self.valor_resolusion.get()
+                resolusion_int = int (resolusion)
 
-                    self.comparar = 144, 240, 480, 720, 1080, 1440, 2160, 4320
+                self.comparar = 144, 240, 480, 720, 1080, 1440, 2160, 4320
 
-                    if resolusion_int in self.comparar:
-                        DescargadorVideo(
-                        self.link, quiero = resolusion, ruta = self.ruta_descarga, lo_mejor = False, descarga_rapida = False, solo_resolucion = False)
-                        self.entrada_texto = "Finalizo la descarga"
-                        self.agregar_texto()
-
-                    else:
-                        self.entrada_texto = f"({resolusion}).No es un valor valido"
-                        self.agregar_texto()
-
-                except:
-                    self.entrada_texto = "Solo se admiten numeros en la Resolucion"
+                if resolusion_int in self.comparar:
+                    self.entrada_texto = "Iniciando la descarga por favor espere puede demorar unos minutos"
                     self.agregar_texto()
+
+                    DescargadorVideo(
+                    self.link, quiero = resolusion, ruta = self.ruta_descarga, lo_mejor = False, descarga_rapida = False, solo_resolucion = False)
+
+                    self.entrada_texto = "Finalizo la descarga"
+                    self.agregar_texto()
+
+                else:
+                    self.entrada_texto = f"({resolusion}).No es un valor valido"
+                    self.agregar_texto()
+
+                # except:
+                #     self.entrada_texto = "Solo se admiten numeros en la Resolucion"
+                #     self.agregar_texto()
 
             elif self.radio_boton == "Descargar rapida":
                 print ("Descargar rapida")
                 DescargadorVideo(
-                self.link, quiero = False, ruta = False, lo_mejor = False, descarga_rapida = True, solo_resolucion = False)
+                self.link, quiero = False, ruta = self.ruta_descarga, lo_mejor = False, descarga_rapida = True, solo_resolucion = False)
 
                 self.entrada_texto = "Finalizo la descarga"
                 self.agregar_texto()

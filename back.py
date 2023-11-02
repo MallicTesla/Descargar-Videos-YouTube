@@ -99,6 +99,7 @@ class DescargadorVideo ():
 
 
     def descarga (self):
+        print (self.descarga_rapida or self.video_completo.resolution is self.video.resolution or self.video_completo.resolution)
         if self.descarga_rapida or self.video_completo.resolution is self.video.resolution or self.video_completo.resolution:
             try:
                 self.video_completo.download(self.final)

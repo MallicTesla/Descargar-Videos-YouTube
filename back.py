@@ -110,13 +110,10 @@ class DescargadorVideo ():
     def descarga (self):
         son_iguales = False
 
-        print ("que ese ", self.videos_quiero)
         if self.videos_quiero :
-            print ("no")
             self.video = self.videos_quiero [0]
 
         else:
-            print ("si")
             self.descarga_rapida = True
 
         for video_quiero in self.videos_quiero:
@@ -154,8 +151,8 @@ class DescargadorVideo ():
 
             self.eliminar_carpeta()
 
-        except Exception as e:
-            print ("Fallo la fusion", str(e))
+        except:
+            print ("Fallo la fusion")
 
 
 # --------------------------------------------------------------------------------------------------------
@@ -169,23 +166,18 @@ class DescargadorMP3 ():
 
     def listado (self):
         if self.link.lower().count("playlist") == 1:
-            print ("playlist")
             links = Playlist (self.link)
 
             for listas in links.video_urls:
-                print ("1")
                 self.lista = YouTube (listas)
 
                 self.descarga_audio ()
 
         elif self.link.lower().count("playlist") == 0:
-            print ("audio")
             self.lista = YouTube (self.link)
 
             self.descarga_audio ()
 
-        else:
-            print ("ninguna")
 
     def descarga_audio (self):
         audios = self.lista.streams.order_by("abr").desc().filter(type = "audio")
@@ -193,7 +185,6 @@ class DescargadorMP3 ():
         audio = audios[0]
 
         audio.download (self.ruta_audio)
-        print ("se descargo")
 
     def carpetas (self):
         nombre_principal = "/YouTube"

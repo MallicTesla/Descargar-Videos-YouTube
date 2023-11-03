@@ -259,8 +259,7 @@ class Inisio ():
                             self.entrada_texto = f"({resolusion}).No es un valor valido"
                             self.agregar_texto()
 
-                    except KeyError as e:
-                        print (e)
+                    except:
                         self.entrada_texto = "Solo se admiten numeros en la Resolucion"
                         self.agregar_texto()
 
@@ -271,8 +270,7 @@ class Inisio ():
                     self.entrada_texto = "Finalizo la descarga"
                     self.agregar_texto()
 
-        except KeyError as e:
-            print (e)
+        except:
 
             tkinter.messagebox.showinfo("ERROR" , "Deves de ingresar una ruta de descarg")
             self.entrada_texto = "Deves de ingresar una ruta de descarga"

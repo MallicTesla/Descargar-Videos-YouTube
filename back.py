@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from pytube import YouTube, Playlist
 from moviepy.editor import VideoFileClip, AudioFileClip
@@ -11,6 +12,7 @@ class DescargadorVideo ():
         self.descarga_rapida = descarga_rapida
         self.solo_resolucion = solo_resolucion
         self.ruta = ruta
+        self.videos_quiero = False
         self.resolusiones = []
         self.resoluciones_videos = []
         self.titulos_resolusiones = []
@@ -97,18 +99,40 @@ class DescargadorVideo ():
         self.ruta_audio = ruta_principal + "/Audio"
         self.final = ruta_principal
 
+    def eliminar_carpeta (self):
+        if os.path.exists(self.ruta_video):
+            shutil.rmtree(self.ruta_video)
+
+        if os.path.exists(self.ruta_audio):
+            shutil.rmtree(self.ruta_audio)
+
 
     def descarga (self):
-        print (self.descarga_rapida or self.video_completo.resolution is self.video.resolution or self.video_completo.resolution)
-        if self.descarga_rapida or self.video_completo.resolution is self.video.resolution or self.video_completo.resolution:
+        son_iguales = False
+
+        print ("que ese ", self.videos_quiero)
+        if self.videos_quiero :
+            print ("no")
+            self.video = self.videos_quiero [0]
+
+        else:
+            print ("si")
+            self.descarga_rapida = True
+
+        for video_quiero in self.videos_quiero:
+            if video_quiero.itag == self.video_completo.itag:
+                son_iguales = True
+
+        if self.descarga_rapida or son_iguales :
             try:
                 self.video_completo.download(self.final)
+
+                self.eliminar_carpeta()
 
             except:
                 print ("fallo descarga")
 
         else:
-            self.video = self.videos_quiero [0]
             try:
                 self.video.download (self.ruta_video)
                 self.audio.download (self.ruta_audio)
@@ -127,6 +151,8 @@ class DescargadorVideo ():
             self.fusion = self.video.set_audio (self.audio)
 
             self.fusion.write_videofile (f"{self.final}\\{self.titulo}.mp4", codec="libx264", audio_codec="aac")
+
+            self.eliminar_carpeta()
 
         except Exception as e:
             print ("Fallo la fusion", str(e))

@@ -138,7 +138,7 @@ class Inisio ():
 
 # rutas ---------------------------------------------------------------------------------------------------------
         def archivo ():
-            tkinter.messagebox.showinfo("Info" , "Se creara una carpeta llamada descargas para guardar las descargas")
+            tkinter.messagebox.showinfo("Info" , "Se creara una carpeta llamada You Tube para guardar las descargas")
             self.ruta_descarga = filedialog.askdirectory()
 
         self.boton_3 = tkinter.Button(self.ventana, text = "Ruta de Descarga",
@@ -259,7 +259,8 @@ class Inisio ():
                             self.entrada_texto = f"({resolusion}).No es un valor valido"
                             self.agregar_texto()
 
-                    except:
+                    except KeyError as e:
+                        print (e)
                         self.entrada_texto = "Solo se admiten numeros en la Resolucion"
                         self.agregar_texto()
 
@@ -270,7 +271,9 @@ class Inisio ():
                     self.entrada_texto = "Finalizo la descarga"
                     self.agregar_texto()
 
-        except:
+        except KeyError as e:
+            print (e)
+
             tkinter.messagebox.showinfo("ERROR" , "Deves de ingresar una ruta de descarg")
             self.entrada_texto = "Deves de ingresar una ruta de descarga"
             self.agregar_texto()
